@@ -3,19 +3,18 @@
  */
 
 const fs = require('fs');
+const path = require('path');
+const staticServer = require('./staic-server');
 
 class App {
 	constructor(){
 
 	}
 	initServer(){
-		let _package = require('../package');
 		return (request, response) => {
-			fs.readFile('./public/index.html', 'utf8', (error, data) => {
-				response.end(JSON.stringify(_package), () => {
-					console.log('data send');
-				});
-			})
+			let { url } = request;
+			let body = staticServer(url);
+			response.end(body);
 		}
 	}
 }
