@@ -14,18 +14,23 @@ class App {
 	initServer(){
 		return (request, response) => {
 			let { url } = request;
+			let body = '';
+			let headers = {};
 			if(url.match('action')){
-				let body = apiServer(url)
-				response.writeHead(200,'ok',{
-					'X-powered-by': 'Node.js',
-					'Content-Type': 'application/json'
-				})
-				response.end(JSON.stringify(body));
+				body =JSON.stringify(apiServer(url));
+				headers = {
+          'Content-Type': 'application/json'
+				};
+        let fianlHeader = Object.assign(headers,{'X-powered-by': 'Node.js'})
+        response.writeHead(200,'ok',fianlHeader)
+        response.end(body);
 			}else{
-				let body = staticServer(url);
-				response.end(body);
+				staticServer(url).then((body)=>{
+          let fianlHeader = Object.assign(headers,{'X-powered-by': 'Node.js'});
+          response.writeHead(200,'ok',fianlHeader)
+          response.end(body)
+				});
 			}
-			
 		}
 	}
 }
