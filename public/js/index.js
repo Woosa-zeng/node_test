@@ -13,9 +13,11 @@ setTimeout(function(){
       console.log(err);
     }
   })
+  // 模拟 post
   $.ajax({
     url: '/list.action',
-    method: 'get',
+    method: 'post',
+    data: JSON.stringify(["name","jrg"]),
     success: function(arr){
       var liStr = arr.map(function(ele){
         return '<li>' + ele + '</li>'
