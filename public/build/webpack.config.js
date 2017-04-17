@@ -1,5 +1,5 @@
 /*
- * @Author slashhuang
+ * @Author zengping
  * webpack项目配置
  */
 var  plugins = require('./plugin_loader.js')['plugins'];

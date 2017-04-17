@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "front-end for pure-node-notebook",
   "main": "index.js",
-  "author": "slashhuang",
+  "author": "zengping",
   "scripts": {
     "start": "rm -rf dist  && webpack --config ./build/webpack.config.js"
   },
