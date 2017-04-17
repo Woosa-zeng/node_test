@@ -1,3 +1,7 @@
+/*
+ * @Author slashhuang
+ * webpack项目配置
+ */
 var  plugins = require('./plugin_loader.js')['plugins'];
 var  loaders = require('./plugin_loader.js')['loaders'];
 var  path= require('path');
@@ -34,3 +38,8 @@ module.exports =  {
             rules:loaders
         }
 };
+
+
+
+
+

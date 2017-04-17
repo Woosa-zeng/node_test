@@ -38,6 +38,9 @@ class App {
 				},
 				res: response,
 				resCtx: {
+					hasUser: false,
+					statusMessage: 'resolve ok',
+					statusCode: 200, //状态码
 					headers: {}, //response的返回报文头
 					body: '', //返回给前端的内容区
 				}
@@ -51,9 +54,9 @@ class App {
 			this.composeMiddleware(context)
 				.then(()=>{
 					//setHeader(key, value)
-					let { body, headers } = context.resCtx;
+					let { body, headers,statusCode,statusMessage } = context.resCtx;
 					let base = {'X-powered-by': 'Node.js'};
-					response.writeHead(200,'resolve ok',Object.assign(base,headers));
+					response.writeHead(statusCode,statusMessage,Object.assign(base,headers));
 					response.end(body)
 				})
 		}
