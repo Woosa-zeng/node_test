@@ -38,6 +38,7 @@ class App {
 				},
 				res: response,
 				resCtx: {
+					//标示用户
 					hasUser: false,
 					statusMessage: 'resolve ok',
 					statusCode: 200, //状态码
