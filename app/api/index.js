@@ -3,36 +3,25 @@
  * Created by zengping on 2017/3/27 0027.
  * api server
  */
+const router = require('./ajax')
 
-module.exports = (ctx)=>{
-	let {url, method} = ctx.req;
-	let {resCtx,reqCtx} = ctx;
-	let {res} = ctx;
-
-  	let apiMap = {
-    	'/list.action': ['吉它','钢琴','小提琴'],
-    	'/user.action': ['hello','world','vicky']
-  	};
-  	method = method.toLowerCase();
-
-  	return Promise.resolve({
-  		then:(resolve,reject)=>{
-  			if(url.match('action')){
-  				if(method == 'get'){
-			  		resCtx.body =JSON.stringify(apiMap[url]) 
-			  		
-			  	}else{
-			  		let {body} = reqCtx;
-			  		resCtx.body = JSON.stringify(body);
-			  	};
-			  	resCtx.headers = Object.assign(resCtx.headers,{
-			  		"Content-Type":"application/json"
-			  	})
-  			}
-		  	resolve();
-  		
-  	}})
+module.exports =(ctx)=>{
+  let {resCtx, reqCtx} = ctx;
+  let{pathname} = reqCtx;
+  if(!pathname.match(/\.action/)){
+    return Promise.resolve()
+  }
+  //request ==> handler
+  return router.routes(ctx).then(val=>{
+    if(val){
+      resCtx.statusCode = 200
+      resCtx.headers= Object.assign(resCtx.headers,{
+        "Conten-Type":"application/json"
+      })
+      resCtx.body = JSON.stringify(val);
+    }
+  }).catch(err=>{
+    resCtx.statusCode = 400
+    resCtx.body = `${err.name} + ${err.stack}`;
+  })
 }
-
-
-

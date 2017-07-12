@@ -22,6 +22,14 @@ server.use(apiServer);
 server.use(staticServer);
 server.use(viewServer);
 
+const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
+mongoose.connect('mongodb://localhost/blogDB')
+mongoose.connection.on('error',()=>{
+	console.log(`error happend for db`)
+}).once('open',()=>{
+	console.log(`we're connected!`)
+})
 // 启动app
 http.createServer(server.initServer()).listen(PORT, () => {
 	console.log(`server listening on port ${PORT}`);
