@@ -1,15 +1,27 @@
+
 /**
- * Created by Administrator on 2017/3/27 0027.
+ * Created by zengping on 2017/3/27 0027.
  * api server
  */
+const router = require('./ajax')
 
-module.exports = (url)=>{
-  let apiMap = {
-    '/list.action': ['吉它','钢琴','小提琴'],
-    '/user.action': ['hello','world','vicky']
+module.exports =(ctx)=>{
+  let {resCtx, reqCtx} = ctx;
+  let{pathname} = reqCtx;
+  if(!pathname.match(/\.action/)){
+    return Promise.resolve()
   }
-  return apiMap[url]
+  //request ==> handler
+  return router.routes(ctx).then(val=>{
+    if(val){
+      resCtx.statusCode = 200
+      resCtx.headers= Object.assign(resCtx.headers,{
+        "Conten-Type":"application/json"
+      })
+      resCtx.body = JSON.stringify(val);
+    }
+  }).catch(err=>{
+    resCtx.statusCode = 400
+    resCtx.body   = `${err.name} + ${err.stack}`;
+  })
 }
-
-
-
